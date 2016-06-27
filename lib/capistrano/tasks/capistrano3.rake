@@ -32,7 +32,6 @@ namespace :mongodb_logger do
           execute :rake, "#{fetch(:mongodb_logger_asset_env)} mongodb_logger:migrate"
         end
       end
-      # execute "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} "
     end
   end
 end
