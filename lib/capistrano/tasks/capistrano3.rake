@@ -14,7 +14,11 @@ namespace :mongodb_logger do
   DESC
   task :precompile do
     on roles(:mongodb_logger_assets_role) do
-      execute "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{mongodb_logger_asset_env} mongodb_logger:assets:compile[#{mongodb_logger_assets_dir}]"
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "#{fetch(:mongodb_logger_asset_env)} mongodb_logger:assets:compile\\[#{fetch(:mongodb_logger_assets_dir)}\\]"
+        end
+      end
     end
   end
 
@@ -23,7 +27,12 @@ namespace :mongodb_logger do
   DESC
   task :migrate do
     on roles(:mongodb_logger_db_role) do
-      execute "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} mongodb_logger:migrate"
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "#{fetch(:mongodb_logger_asset_env)} mongodb_logger:migrate"
+        end
+      end
+      # execute "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} "
     end
   end
 end
